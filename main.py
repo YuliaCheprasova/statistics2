@@ -8,8 +8,9 @@ def Y(u):
     for x in u:
         h = np.random.normal(0, 0.5, 1)[0]
         square = [i**2 for i in x]
-        y[j]=round(sum(square)+h, 3)
+        y[j]=sum(square)+h
         j+=1
+
     return y
 
 
@@ -69,13 +70,13 @@ def B2(x,y, x1av, x2av):
         res = 0
         for i in range(len(y)):
             res += int(x[i][j]) * y[i]
-        b[j + 1] = round(res / len(y), 3)
+        b[j + 1] = res / len(y)
     for j in range(5,7):
         res = 0
         for i in range(len(y)):
-            res += int(x[i][j]) * y[i]
-        b[j - 1] = round(res / len(y), 3)
-    btemp=round(sum(y) / len(y), 3)
+            res += float(x[i][j]) * y[i]
+        b[j - 1] = res / len(y)
+    btemp=sum(y) / len(y)
     b[0] = btemp-b[3]*x1av-b[4]*x2av
     return b
 
@@ -90,7 +91,7 @@ def A2(b,du2):
     a = np.zeros(len(b))
     a[0] = b[0]
     for j in range(1, len(b)):
-        a[j] = round(b[j] / du2[j-1], 3)
+        a[j] = b[j] / du2[j-1]
     return a
 
 def Du2(du):
@@ -225,8 +226,6 @@ for i in range(9):
     x2[i][5] = x2[i][3] - x1av
     x2[i][6] = x2[i][4] - x2av
 print(f"Таблица для планирования второго порядка\n{x2}")
-
-#u2=U2(x2, u0, du, 2)
 u2=U(x2, u0, du, 2)
 print(u2)
 y2=Y(u2)
